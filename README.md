@@ -1,4 +1,4 @@
-# Stripe Payment Integration in Node.js
+# Stripe Payment Integration in Node.js - [preview](#demo)
 
 This project demonstrates how to integrate the Stripe payment gateway into a Node.js application. With this setup, you can securely process payments for goods or services on your website.
 
@@ -51,6 +51,9 @@ Dependencies
     ejs: Template engine for rendering views.
     stripe: Stripe Node.js library for interacting with the Stripe API.
 
+
+### Preview
+
 app.js
 
 This file contains the main application logic. It sets up the Express server, configures middleware, defines routes, and handles payment processing.
@@ -65,3 +68,4 @@ License
 This project is licensed under the ISC License. See the LICENSE file for details.
 
 Feel free to customize this README to fit your project's specific needs. Happy coding! 🚀
+
