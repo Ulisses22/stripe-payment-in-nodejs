@@ -5,10 +5,9 @@ const bodyParser = require('body-parser')
 
 app.use(cors());
 app.use(bodyParser.json());
-const PORT = 3000;
 
 
-app.listen(PORT, () =>{
+app.listen(process.env.PORT, () =>{
 
-    console.log(`Listening on ${PORT} ...`);
+    console.log(`Listening on ${process.env.PORT} ...`);
 })
