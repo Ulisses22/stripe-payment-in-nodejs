@@ -5,33 +5,47 @@ const bodyParser = require('body-parser')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.static('public'))
 
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+    })
 
-app.post('/charge', async (req, res) => {
-    const { amount, token } = req.body;
-
-    try {
-        const charge = await stripe.charges.create({
-            amount,
-            currency: 'usd',
-            source: token.id,
-            description: 'Chearge for test@example.com'
-        });
-
-        res.status(200).json({
-            status: 200,
-            message: 'Payment successful.'
-        })
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            status: 500,
-            message: 'Error creating charge.'
-        })
-    }
 })
 
+app.post('/charge', function(req, res){
+ 
+    // Moreover you can take more details from user
+    // like Address, Name, etc from form
+    stripe.customers.create({
+        email: req.body.stripeEmail,
+        source: req.body.stripeToken,
+        name: 'Gourav Hammad',
+        address: {
+            line1: 'TC 9/4 Old MES colony',
+            postal_code: '452331',
+            city: 'Indore',
+            state: 'Madhya Pradesh',
+            country: 'India',
+        }
+    })
+    .then((customer) => {
+ 
+        return stripe.charges.create({
+            amount: 2500,     // Charging Rs 25
+            description: 'Web Development Product',
+            currency: 'INR',
+            customer: customer.id
+        });
+    })
+    .then((charge) => {
+        res.send("Success")  // If no error occurs
+    })
+    .catch((err) => {
+        res.send(err)       // If some error occurs
+    });
+})
 
 
 app.listen(process.env.PORT, () => {
