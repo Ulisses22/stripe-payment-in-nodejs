@@ -43,7 +43,7 @@ app.post('/payment', function (req, res) {
             });
         })
         .then((charge) => {
-            res.send("Success")
+            res.send("<h2>Success</h2>")
         })
         .catch((err) => {
             res.send(err)
