@@ -35,6 +35,7 @@ To start the server, run the following command in your terminal:
 
 ```bash
 node --env-file=.env  app.js
+```
 
 This will start the server at http://localhost:3000 by default.
 Endpoints
