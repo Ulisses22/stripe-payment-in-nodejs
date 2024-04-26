@@ -1,4 +1,4 @@
-# Stripe Payment Integration in Node.js - [demo](#preview)
+# Stripe Payment Integration in Node.js - [demo](#demo)
 
 This project demonstrates how to integrate the Stripe payment gateway into a Node.js application. With this setup, you can securely process payments for goods or services on your website.
 
