@@ -1,54 +1,56 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const bodyParser = require('body-parser')
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-app.use(cors());
-app.use(express.static('public'))
+const express = require('express')
+const bodyparser = require('body-parser')
+const path = require('path')
+const app = express()
 
-app.get('/', (req, res) => {
-    res.json({
-        success: true,
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
+app.use(bodyparser.urlencoded({ extended: false }))
+app.use(bodyparser.json())
+
+// View Engine Setup
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+app.get('/', function (req, res) {
+    res.render('Home', {
+        key: process.env.PUBLISHABLE_KEY
     })
-
 })
 
-app.post('/charge', function(req, res){
- 
-    // Moreover you can take more details from user
-    // like Address, Name, etc from form
+app.post('/payment', function (req, res) {
+
     stripe.customers.create({
         email: req.body.stripeEmail,
         source: req.body.stripeToken,
-        name: 'Gourav Hammad',
+        name: 'John Doe',
         address: {
-            line1: 'TC 9/4 Old MES colony',
-            postal_code: '452331',
-            city: 'Indore',
-            state: 'Madhya Pradesh',
-            country: 'India',
+            line1: '123 Main Street',
+            postal_code: '12345',
+            city: 'Anytown',
+            state: 'California',
+            country: 'USA',
         }
     })
-    .then((customer) => {
- 
-        return stripe.charges.create({
-            amount: 2500,     // Charging Rs 25
-            description: 'Web Development Product',
-            currency: 'INR',
-            customer: customer.id
+        .then((customer) => {
+
+            return stripe.charges.create({
+                amount: 3500,
+                description: 'Web Development Service',
+                currency: 'USD',
+                customer: customer.id
+            });
+        })
+        .then((charge) => {
+            res.send("Success")
+        })
+        .catch((err) => {
+            res.send(err)
         });
-    })
-    .then((charge) => {
-        res.send("Success")  // If no error occurs
-    })
-    .catch((err) => {
-        res.send(err)       // If some error occurs
-    });
 })
 
-
-app.listen(process.env.PORT, () => {
-
-    console.log(`Listening on ${process.env.PORT} ...`);
+app.listen(process.env.PORT, function (error) {
+    if (error) throw error
+    console.log(`Service listening on ${process.env.PORT} ...`)
 })

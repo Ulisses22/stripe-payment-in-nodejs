@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h3 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Welcome to the Payment Gateway</h3>
+    <form action="payment" method="POST">
+        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" 
+                data-key="<%= key %>"
+                data-amount="3500"
+                data-currency="usd"
+                data-name="Example Company"
+                data-description="Purchase"
+                data-locale="auto">
+        </script>
+    </form>
+</body>
+</html>
